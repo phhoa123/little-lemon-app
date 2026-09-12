@@ -36,3 +36,500 @@
     transform: rotate(360deg);
   }
 }
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+/* Định nghĩa các biến màu sắc và kiểu chữ chuẩn từ UI Kit */
+:root {
+  --primary-green: #495E57;
+  --primary-yellow: #F4CE14;
+  --border-radius-lg: 16px;
+}
+
+/* Kiêu chữ: Sub title (40pt) */
+.sub-title {
+  font-size: 40px;
+  font-weight: 400; /* Regular */
+}
+
+/* Kiểu chữ: Lead text / CTA (Medium 18pt) */
+.lead-text {
+  font-size: 18px;
+  font-weight: 500; /* Medium */
+}
+
+/* Kiểu chữ: Card Title (18pt Bold) */
+.card-title {
+  font-size: 18px;
+  font-weight: 700; /* Bold */
+}
+
+/* Kiểu chữ: Paragraph (16pt, line-height 1.5, max-width tương ứng khoảng 65 ký tự) */
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 65ch;
+}
+
+/* Kiểu chữ: Highlight text / Price (Medium 16pt) */
+.highlight-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Bo góc các khối card hoặc hình ảnh theo thông số Rounded corners: 16 */
+.rounded-box {
+  border-radius: 16px;
+}
+
+
+/* Thiết lập khung chứa chung cho Header để tuân theo hệ thống lưới */
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 15px 0;
+}
+
+/* Khối định giới hạn độ rộng tối đa và bám theo chuẩn lưới cột */
+.nav-bar {
+  width: 100%;
+  max-width: 1170px; /* Điều chỉnh khớp với vùng chứa cột lưới */
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Tinh chỉnh kích thước logo cho cân đối */
+.logo-container img {
+  height: 45px;
+  width: auto;
+}
+
+/* Canh chỉnh các mục menu */
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 35px; /* Khoảng cách đều giữa các mục menu */
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-links ul li a {
+  text-decoration: none;
+  color: #333333;
+  font-family: 'Karla', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+/* Khung nền tổng thể của Hero Section */
+.hero-section {
+  background-color: #495E57;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* Vùng chứa giới hạn độ rộng để thẳng hàng với hệ thống lưới */
+.hero-content-wrapper {
+  width: 100%;
+  max-width: 1170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Phần chữ bên trái */
+.hero-text {
+  flex: 1;
+  color: #ffffff;
+}
+
+.hero-text h1 {
+  font-size: 54px;
+  color: #F4CE14; /* Màu vàng chanh thương hiệu */
+  margin: 0;
+  font-family: 'Markazi Text', serif;
+}
+
+.hero-text h2 {
+  font-size: 32px;
+  color: #ffffff;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-family: 'Markazi Text', serif;
+}
+
+.hero-text p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #edefee;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+/* Nút bấm CTA (Reserve a Table) */
+.reserve-btn {
+  background-color: #F4CE14;
+  color: #333333;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reserve-btn:hover {
+  background-color: #e5be11;
+}
+
+/* Phần hình ảnh bên phải được bo góc 16px theo UI Kit */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 380px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 16px; /* Khớp với thông số Rounded corners trong bộ UI Kit */
+}
+
+/* Khung tổng thể phần Highlights */
+.highlights-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+  background-color: #ffffff;
+}
+
+.highlights-container {
+  width: 100%;
+  max-width: 1170px; /* Khớp độ rộng chuẩn với hệ thống lưới 12 cột */
+}
+
+/* Phần header chứa tiêu đề và nút Online Menu */
+.highlights-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.highlights-header h2 {
+  font-size: 40px;
+  font-family: 'Markazi Text', serif;
+  color: #333333;
+  margin: 0;
+}
+
+.online-menu-btn {
+  background-color: #F4CE14;
+  color: #333333;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.online-menu-btn:hover {
+  background-color: #e5be11;
+}
+
+/* Lưới 3 cột cho các thẻ món ăn */
+.specials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Thẻ card món ăn */
+.card {
+  background-color: #edefee; /* Màu nền xám nhạt đặc trưng cho card */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Hình ảnh món ăn trong card */
+.card-image-container img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Phần nội dung chữ trong card */
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.card-title-price h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333333;
+  margin: 0;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ee9972; /* Màu cam giá tiền */
+}
+
+.card-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #495E57;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+/* Liên kết gọi giao hàng */
+.card-footer {
+  margin-top: auto;
+}
+
+.order-delivery-link {
+  text-decoration: none;
+  color: #333333;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-delivery-link:hover {
+  color: #495E57;
+}
+
+.testimonials-section {
+  background-color: #d9d9d9;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+}
+
+.testimonials-container {
+  width: 100%;
+  max-width: 1170px;
+}
+
+.testimonials-container h2 {
+  text-align: center;
+  font-size: 40px;
+  font-family: 'Markazi Text', serif;
+  color: #333333;
+  margin-bottom: 40px;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.testimonial-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rating {
+  color: #F4CE14;
+  font-size: 16px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 16px;
+  color: #333333;
+}
+
+.review-text {
+  font-size: 14px;
+  color: #495E57;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Khung nền tổng thể phần About */
+.about-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px 20px;
+  background-color: #ffffff;
+}
+
+/* Vùng chứa giới hạn độ rộng chuẩn lưới 12 cột */
+.about-container {
+  width: 100%;
+  max-width: 1170px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+}
+
+/* Phần chữ bên trái */
+.about-text {
+  flex: 1;
+}
+
+.about-text h2 {
+  font-size: 54px;
+  font-family: 'Markazi Text', serif;
+  color: #495E57; /* Xanh đậm thương hiệu */
+  margin: 0;
+}
+
+.about-text h3 {
+  font-size: 32px;
+  font-family: 'Markazi Text', serif;
+  color: #333333;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333;
+  max-width: 450px;
+}
+
+/* Phần chứa 2 hình ảnh xếp chồng bên phải */
+.about-images {
+  flex: 1;
+  position: relative;
+  height: 350px;
+}
+
+.about-img-1 {
+  width: 270px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.about-img-2 {
+  width: 270px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 16px;
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  z-index: 2;
+}
+
+
+/* Khung tổng thể phần Footer */
+.footer-section {
+  width: 100%;
+  background-color: #edefee; /* Màu nền xám nhạt */
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+/* Vùng chứa giới hạn độ rộng chuẩn lưới 12 cột */
+.footer-container {
+  width: 100%;
+  max-width: 1170px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+/* Định dạng từng cột trong footer */
+.footer-col h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 20px;
+  font-family: 'Karla', sans-serif;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col ul li, 
+.footer-col ul li a {
+  font-size: 15px;
+  color: #495E57;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+  color: #333333;
+}
+
+/* Logo ở footer */
+.footer-logo {
+  width: 100px;
+  height: auto;
+}
