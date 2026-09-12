@@ -14,14 +14,15 @@ function BookingForm({ availableTimes, dispatch, submitForm }) {
     dispatch({ type: 'UPDATE_TIMES', date: new Date(selectedDate) });
   };
 
+  // Kiểm tra tính hợp lệ cơ bản của form (Client-side validation)
+  const isFormValid = date !== '' && time !== '' && guests >= 1 && guests <= 10;
+
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitForm({
-      date,
-      time,
-      guests,
-      occasion,
-    });
+    if (isFormValid) {
+      submitForm({ date, time, guests, occasion });
+    }
   };
 
   return (
@@ -50,6 +51,7 @@ function BookingForm({ availableTimes, dispatch, submitForm }) {
         id="res-time" 
         value={time} 
         onChange={(e) => setTime(e.target.value)}
+        required
         style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '1rem' }}
       >
         {availableTimes.map((availableTime) => (
@@ -83,21 +85,23 @@ function BookingForm({ availableTimes, dispatch, submitForm }) {
         <option value="Anniversary">Anniversary</option>
       </select>
 
-      <input 
+      {/* Nút Submit: Bị vô hiệu hóa (disabled) nếu form chưa điền đúng yêu cầu */}
+      <button 
         type="submit" 
-        value="Make Your reservation" 
-        style={{ 
-          backgroundColor: '#F4CE14', 
-          border: 'none', 
-          padding: '14px', 
-          fontWeight: 'bold', 
-          fontSize: '1.1rem',
-          cursor: 'pointer', 
+        disabled={!isFormValid}
+        aria-label="On Click"
+        style={{
+          backgroundColor: isFormValid ? '#F4CE14' : '#cccccc',
+          color: '#333',
+          padding: '12px',
+          border: 'none',
           borderRadius: '8px',
-          marginTop: '10px',
-          color: '#333'
+          fontWeight: 'bold',
+          cursor: isFormValid ? 'pointer' : 'not-allowed'
         }}
-      />
+      >
+        Make Your reservation
+      </button>
     </form>
   );
 }

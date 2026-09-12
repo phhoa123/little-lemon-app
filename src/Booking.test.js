@@ -1,35 +1,15 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import BookingForm from "./BookingForm";
 
-// Thiết lập mock cho window.fetchAPI trước mỗi bài test
 beforeEach(() => {
   window.fetchAPI = jest.fn((date) => {
     return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
   });
 });
 
-// Định nghĩa lại các hàm reducer để test
-const initializeTimes = () => {
-  if (typeof window !== 'undefined' && window.fetchAPI) {
-    return window.fetchAPI(new Date());
-  }
-  return []; // Đảm bảo luôn trả về mảng
-};
-
-const updateTimes = (state, action) => {
-  switch (action.type) {
-    case 'UPDATE_TIMES':
-      if (typeof window !== 'undefined' && window.fetchAPI) {
-        return window.fetchAPI(action.date);
-      }
-      return state;
-    default:
-      return state;
-  }
-};
-
-describe('Booking Component & Reducer Tests with API', () => {
+describe('BookingForm Validation Tests', () => {
   
+  // Test 1: Kiểm tra render nhãn và tiêu đề form
   test('Renders the BookingForm heading or label', () => {
     const mockAvailableTimes = ['17:00', '18:00', '19:00'];
     const mockDispatch = jest.fn();
@@ -46,22 +26,52 @@ describe('Booking Component & Reducer Tests with API', () => {
     expect(labelElement).toBeInTheDocument();
   });
 
-  test('initializeTimes returns expected available times from API', () => {
-    const expectedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
-    const result = initializeTimes();
-    expect(result).toEqual(expectedTimes);
+  // Test 2: Kiểm tra các thuộc tính HTML5 validation (required, min, max) được áp dụng đúng
+  test('HTML5 validation attributes are correctly applied to form inputs', () => {
+    const mockAvailableTimes = ['17:00', '18:00'];
+    const mockDispatch = jest.fn();
+
+    render(
+      <BookingForm 
+        availableTimes={mockAvailableTimes} 
+        dispatch={mockDispatch} 
+        submitForm={() => {}} 
+      />
+    );
+
+    // Kiểm tra trường ngày có thuộc tính required
+    const dateInput = screen.getByLabelText(/Choose date/i);
+    expect(dateInput).toHaveAttribute('required');
+    expect(dateInput).toHaveAttribute('type', 'date');
+
+    // Kiểm tra trường số lượng khách có thuộc tính min, max, required
+    const guestsInput = screen.getByLabelText(/Number of guests/i);
+    expect(guestsInput).toHaveAttribute('required');
+    expect(guestsInput).toHaveAttribute('min', '1');
+    expect(guestsInput).toHaveAttribute('max', '10');
+
+    // Kiểm tra trường giờ có thuộc tính required
+    const timeSelect = screen.getByLabelText(/Choose time/i);
+    expect(timeSelect).toHaveAttribute('required');
   });
 
-  test('updateTimes returns expected available times based on selected date', () => {
-    // initialState không còn quá quan trọng vì updateTimes sẽ luôn trả về mảng mới từ fetchAPI
-    const initialState = ['17:00']; 
-    const selectedDate = new Date('2026-09-15');
-    const action = { type: 'UPDATE_TIMES', date: selectedDate };
-    const expectedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+  // Test 3: Kiểm tra nút Submit bị vô hiệu hóa khi dữ liệu form chưa hợp lệ
+  test('Submit button is disabled when form inputs are invalid', () => {
+    const mockAvailableTimes = ['17:00'];
+    const mockDispatch = jest.fn();
+
+    render(
+      <BookingForm 
+        availableTimes={mockAvailableTimes} 
+        dispatch={mockDispatch} 
+        submitForm={() => {}} 
+      />
+    );
+
+    const submitButton = screen.getByRole('button', { name: /Make Your reservation/i });
     
-    const result = updateTimes(initialState, action);
-    expect(window.fetchAPI).toHaveBeenCalledWith(selectedDate);
-    expect(result).toEqual(expectedTimes); // So sánh với expectedTimes thay vì initialState
+    // Ban đầu khi chưa chọn ngày (date rỗng), nút submit phải bị disabled
+    expect(submitButton).toBeDisabled();
   });
 
 });
