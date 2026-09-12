@@ -6,10 +6,11 @@ function BookingForm({ availableTimes, dispatch, submitForm }) {
   const [guests, setGuests] = useState(1);
   const [occasion, setOccasion] = useState('Birthday');
 
-  // Hàm xử lý khi thay đổi ngày -> gọi dispatch để cập nhật giờ tương ứng
+  
   const handleDateChange = (e) => {
-    const selectedDate = e.target.value;
+    const selectedDate = e.target.value; // dạng chuỗi 'YYYY-MM-DD'
     setDate(selectedDate);
+    // Chuyển chuỗi thành đối tượng Date truyền vào action.date
     dispatch({ type: 'UPDATE_TIMES', date: new Date(selectedDate) });
   };
 

@@ -5,6 +5,7 @@ import Highlights from './Highlights';
 import Testimonials from './Testimonials';
 import About from './About';
 import BookingPage from './BookingPage';
+import ConfirmedBooking from './ConfirmedBooking';
 
 // Tạo một component HomePage gộp các phần của trang chủ
 function HomePage() {
@@ -19,32 +20,37 @@ function HomePage() {
 }
 
 function Main() {
-    // 1. Hàm khởi tạo giá trị ban đầu cho availableTimes
+  // 1. Sử dụng fetchAPI lấy giờ cho ngày hiện tại (hàm fetchAPI nhận đối tượng Date)
   const initializeTimes = () => {
-    return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+    return window.fetchAPI ? window.fetchAPI(new Date()) : ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
   };
 
-  // 2. Hàm reducer cập nhật times dựa trên ngày được chọn (dispatch action)
+  
+  // 2. Cập nhật hàm updateTimes để gọi fetchAPI dựa trên ngày người dùng chọn từ action
   const updateTimes = (state, action) => {
     switch (action.type) {
       case 'UPDATE_TIMES':
-        // Hiện tại trả về danh sách giờ mặc định (có thể mở rộng logic theo ngày sau)
-        return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+        return window.fetchAPI ? window.fetchAPI(action.date) : state;
       default:
         return state;
     }
   };
 
   // 3. Khai báo useReducer
-  const [availableTimes, dispatch] = useReducer(updateTimes, initializeTimes());
+
+  const [availableTimes, dispatch] = useReducer(updateTimes, [], initializeTimes);
 
   const navigate = useNavigate();
 
-  // Hàm giả lập submit form đặt bàn
+  
+  // 3. Tích hợp submitAPI khi submit form
   const submitForm = (formData) => {
-    console.log("Submitted data:", formData);
-    alert("Reservation successful!");
-    navigate("/"); // Chuyển hướng về trang chủ sau khi đặt bàn thành công
+    const success = window.fetchAPI ? window.submitAPI(formData) : true;
+    if (success) {
+      console.log("Submitted successfully:", formData);
+      alert("Reservation successful!");
+      navigate("confirmed"); // Chuyển hướng về trang chủ sau khi đặt bàn thành công
+    }
   };
 
   return (
@@ -66,6 +72,7 @@ function Main() {
         />
         <Route path="/order-online" element={<div style={{padding: '50px', textAlign: 'center'}}><h2>Order Online Page</h2></div>} />
         <Route path="/login" element={<div style={{padding: '50px', textAlign: 'center'}}><h2>Login Page</h2></div>} />
+        <Route path="/confirmed" element={<ConfirmedBooking />} />
       </Routes>
     </main>
   );

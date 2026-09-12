@@ -1,25 +1,36 @@
 import { render, screen } from "@testing-library/react";
 import BookingForm from "./BookingForm";
 
-// Khai báo lại các hàm reducer tương tự như trong Main.js để test trực tiếp
+// Thiết lập mock cho window.fetchAPI trước mỗi bài test
+beforeEach(() => {
+  window.fetchAPI = jest.fn((date) => {
+    return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+  });
+});
+
+// Định nghĩa lại các hàm reducer để test
 const initializeTimes = () => {
-  return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+  if (typeof window !== 'undefined' && window.fetchAPI) {
+    return window.fetchAPI(new Date());
+  }
+  return []; // Đảm bảo luôn trả về mảng
 };
 
 const updateTimes = (state, action) => {
   switch (action.type) {
     case 'UPDATE_TIMES':
-      return ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+      if (typeof window !== 'undefined' && window.fetchAPI) {
+        return window.fetchAPI(action.date);
+      }
+      return state;
     default:
       return state;
   }
 };
 
-describe('Booking Component & Reducer Tests', () => {
+describe('Booking Component & Reducer Tests with API', () => {
   
-  // Step 1: Test văn bản tĩnh hiển thị trong BookingForm
   test('Renders the BookingForm heading or label', () => {
-    // Truyền prop availableTimes và dispatch giả lập nếu component cần
     const mockAvailableTimes = ['17:00', '18:00', '19:00'];
     const mockDispatch = jest.fn();
 
@@ -31,24 +42,26 @@ describe('Booking Component & Reducer Tests', () => {
       />
     );
 
-    // Kiểm tra xem nhãn "Choose date" có xuất hiện trên form hay không
     const labelElement = screen.getByText("Choose date");
     expect(labelElement).toBeInTheDocument();
   });
 
-  // Step 2: Test hàm initializeTimes
-  test('initializeTimes returns the correct expected initial value', () => {
+  test('initializeTimes returns expected available times from API', () => {
     const expectedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
     const result = initializeTimes();
     expect(result).toEqual(expectedTimes);
   });
 
-  // Step 2: Test hàm updateTimes
-  test('updateTimes returns the same state provided', () => {
-    const initialState = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
-    const action = { type: 'UPDATE_TIMES', date: new Date('2026-09-15') };
+  test('updateTimes returns expected available times based on selected date', () => {
+    // initialState không còn quá quan trọng vì updateTimes sẽ luôn trả về mảng mới từ fetchAPI
+    const initialState = ['17:00']; 
+    const selectedDate = new Date('2026-09-15');
+    const action = { type: 'UPDATE_TIMES', date: selectedDate };
+    const expectedTimes = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'];
+    
     const result = updateTimes(initialState, action);
-    expect(result).toEqual(initialState);
+    expect(window.fetchAPI).toHaveBeenCalledWith(selectedDate);
+    expect(result).toEqual(expectedTimes); // So sánh với expectedTimes thay vì initialState
   });
 
 });
